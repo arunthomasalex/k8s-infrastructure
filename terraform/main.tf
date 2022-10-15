@@ -3,7 +3,8 @@ provider "aws" {
 }
 
 module "master" {
-  source = "./modules/master"
+  source = "./modules/instance"
+  props = var.master_props
   instance_count = var.master_count
   env = var.env
   key_name = aws_key_pair.key_pair.key_name
@@ -12,7 +13,8 @@ module "master" {
 }
 
 module "cluster" {
-  source = "./modules/cluster"
+  source = "./modules/instance"
+  props = var.cluster_props
   instance_count = var.master_count
   env = var.env
   key_name = aws_key_pair.key_pair.key_name

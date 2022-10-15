@@ -1,13 +1,6 @@
 variable "props" {
   type = map(any)
-  default = {
-    region     = "ap-south-1"
-    ami        = "ami-068257025f72f470d"
-    type       = "t2.micro"
-    enable_ip  = true
-    enable_dns = true
-    tag   = "cluster"
-  }
+  description = "Basic properties"
 }
 
 
