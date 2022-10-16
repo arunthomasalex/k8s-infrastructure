@@ -1,3 +1,7 @@
+locals {
+  instance_name = "${var.name_tag}-${lookup(var.props, "name")}"
+}
+
 resource "aws_instance" "cluster" {
   ami = lookup(var.props, "ami")
   instance_type = lookup(var.props, "type")
@@ -6,7 +10,7 @@ resource "aws_instance" "cluster" {
   key_name = var.key_name
   user_data = var.user_script != "" ? file(var.user_script) : ""
   tags = {
-    Name = "${var.name_tag}-${lookup(var.props, "name")}${count.index + 1}"
+    Name = "${local.instance_name}${count.index + 1}"
     Environment = var.env
     Type = lookup(var.props, "name")
   }

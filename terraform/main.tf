@@ -29,6 +29,7 @@ resource "aws_key_pair" "key_pair" {
   public_key = file(var.ssh_file)
 }
 
+#virtual network for the instances
 resource "aws_vpc" "k8s" {
   cidr_block = var.vpc_cidr_block
   enable_dns_support = var.k8s_dns_support
@@ -37,6 +38,7 @@ resource "aws_vpc" "k8s" {
   }
 }
 
+#subnet for the instances
 resource "aws_subnet" "k8s" {
   vpc_id = aws_vpc.k8s.id
   cidr_block = var.subnet_cidr_block
@@ -45,6 +47,7 @@ resource "aws_subnet" "k8s" {
   }
 }
 
+#firewall configuration to expose ports
 resource "aws_security_group" "k8s" {
   name = var.name_tag
   vpc_id = aws_vpc.k8s.id
@@ -72,6 +75,7 @@ resource "aws_security_group" "k8s" {
   }
 }
 
+#used for connecting the machine to the internet
 resource "aws_internet_gateway" "k8s" {
   vpc_id = aws_vpc.k8s.id
   tags = {

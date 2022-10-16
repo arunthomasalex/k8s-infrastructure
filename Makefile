@@ -8,9 +8,9 @@ GREEN:=\033[0;32m
 ORANGE:=\033[0;33m
 NOCOLOR:=\033[0m
 
-edit: terraform wait ansible
+edit: terraform wait ansible provisioned
 
-clean: ansible-destroy terraform-destroy
+clean: ansible-destroy terraform-destroy destroyed
 
 wait:
 	@echo "${ORANGE}Waiting for ${DELAY} seconds.${NOCOLOR}"
@@ -55,3 +55,9 @@ terraform-output:
 	@echo "${GREEN}terraform apply${NOCOLOR}"
 	@cd terraform && \
 	terraform output --json
+
+provisioned:
+	@echo "${GREEN}Completed provisioning${NOCOLOR}"
+
+destroyed:
+	@echo "${RED}Completely destroyed${NOCOLOR}"
