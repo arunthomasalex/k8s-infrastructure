@@ -10,6 +10,7 @@ module "master" {
   key_name = aws_key_pair.key_pair.key_name
   subnet_id = aws_subnet.k8s.id
   security_group_id = aws_security_group.k8s.id
+  name_tag = var.name_tag
 }
 
 module "cluster" {
@@ -20,6 +21,7 @@ module "cluster" {
   key_name = aws_key_pair.key_pair.key_name
   subnet_id = aws_subnet.k8s.id
   security_group_id = aws_security_group.k8s.id
+  name_tag = var.name_tag
 }
 
 resource "aws_key_pair" "key_pair" {
@@ -31,7 +33,7 @@ resource "aws_vpc" "k8s" {
   cidr_block = var.vpc_cidr_block
   enable_dns_support = var.k8s_dns_support
   tags = {
-    Name = var.tag_name
+    Name = var.name_tag
   }
 }
 
@@ -39,12 +41,12 @@ resource "aws_subnet" "k8s" {
   vpc_id = aws_vpc.k8s.id
   cidr_block = var.subnet_cidr_block
   tags = {
-    Name = var.tag_name
+    Name = var.name_tag
   }
 }
 
 resource "aws_security_group" "k8s" {
-  name = var.tag_name
+  name = var.name_tag
   vpc_id = aws_vpc.k8s.id
 
   dynamic "ingress" {
@@ -66,14 +68,14 @@ resource "aws_security_group" "k8s" {
   }
 
   tags = {
-    Name = var.tag_name
+    Name = var.name_tag
   }
 }
 
 resource "aws_internet_gateway" "k8s" {
   vpc_id = aws_vpc.k8s.id
   tags = {
-    Name = var.tag_name
+    Name = var.name_tag
   }
 }
 

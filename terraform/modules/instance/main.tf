@@ -6,9 +6,9 @@ resource "aws_instance" "cluster" {
   key_name = var.key_name
   user_data = var.user_script != "" ? file(var.user_script) : ""
   tags = {
-    Name = var.tag_name
+    Name = "${var.name_tag}-${lookup(var.props, "name")}${count.index + 1}"
     Environment = var.env
-    Type = lookup(var.props, "tag")
+    Type = lookup(var.props, "name")
   }
   root_block_device {
     delete_on_termination = true

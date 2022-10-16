@@ -35,8 +35,7 @@ variable "security_group_id" {
   description = "Selected security group id"
 }
 
-variable "tag_name" {
+variable "name_tag" {
   type = string
   description = "Tag name for the resource"
-  default = "k8s"
 }
