@@ -8,6 +8,9 @@ GREEN:=\033[0;32m
 ORANGE:=\033[0;33m
 NOCOLOR:=\033[0m
 
+master_ids=$(shell cd terraform && terraform output --json k8s-master-ids | sed -r 's/(,|\[|\])/ /g')
+cluster_ids=$(shell cd terraform && terraform output --json k8s-cluster-ids | sed -r 's/(,|\[|\])/ /g')
+
 edit: terraform wait ansible provisioned
 
 clean: ansible-destroy terraform-destroy destroyed
@@ -61,3 +64,23 @@ provisioned:
 
 destroyed:
 	@echo "${RED}Completely destroyed${NOCOLOR}"
+
+start:
+	@echo "${ORANGE}Starting k8s cluster instances${NOCOLOR}"
+	@aws ec2 start-instances --instance-ids $(cluster_ids)
+	@aws ec2 wait instance-running --instance-ids $(cluster_ids)
+	@echo "${GREEN}Started k8s master instances${NOCOLOR}"
+	@echo "${ORANGE}Starting k8s master instances${NOCOLOR}"
+	@aws ec2 start-instances --instance-ids $(master_ids)
+	@aws ec2 wait instance-running --instance-ids $(master_ids)
+	@echo "${GREEN}Started k8s master instances${NOCOLOR}"
+
+stop:
+	@echo "${ORANGE}Stopping k8s master instances${NOCOLOR}"
+	@aws ec2 stop-instances --instance-ids $(master_ids)
+	@aws ec2 wait instance-stopped --instance-ids $(master_ids)
+	@echo "${RED}Stopped k8s master instances${NOCOLOR}"
+	@echo "${ORANGE}Stopping k8s cluster instances${NOCOLOR}"
+	@aws ec2 stop-instances --instance-ids $(cluster_ids)
+	@aws ec2 wait instance-stopped --instance-ids $(cluster_ids)
+	@echo "${RED}Stopped k8s cluster instances${NOCOLOR}"

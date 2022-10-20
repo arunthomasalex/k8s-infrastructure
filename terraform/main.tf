@@ -16,7 +16,7 @@ module "master" {
 module "cluster" {
   source = "./modules/instance"
   props = var.cluster_props
-  instance_count = var.master_count
+  instance_count = var.cluster_count
   env = var.env
   key_name = aws_key_pair.key_pair.key_name
   subnet_id = aws_subnet.k8s.id
