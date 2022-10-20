@@ -67,20 +67,20 @@ destroyed:
 
 start:
 	@echo "${ORANGE}Starting k8s cluster instances${NOCOLOR}"
-	@aws ec2 start-instances --instance-ids $(cluster_ids)
+	aws ec2 start-instances --instance-ids $(cluster_ids)
 	@aws ec2 wait instance-running --instance-ids $(cluster_ids)
 	@echo "${GREEN}Started k8s master instances${NOCOLOR}"
 	@echo "${ORANGE}Starting k8s master instances${NOCOLOR}"
-	@aws ec2 start-instances --instance-ids $(master_ids)
+	aws ec2 start-instances --instance-ids $(master_ids)
 	@aws ec2 wait instance-running --instance-ids $(master_ids)
 	@echo "${GREEN}Started k8s master instances${NOCOLOR}"
 
 stop:
 	@echo "${ORANGE}Stopping k8s master instances${NOCOLOR}"
-	@aws ec2 stop-instances --instance-ids $(master_ids)
+	aws ec2 stop-instances --instance-ids $(master_ids)
 	@aws ec2 wait instance-stopped --instance-ids $(master_ids)
 	@echo "${RED}Stopped k8s master instances${NOCOLOR}"
 	@echo "${ORANGE}Stopping k8s cluster instances${NOCOLOR}"
-	@aws ec2 stop-instances --instance-ids $(cluster_ids)
+	aws ec2 stop-instances --instance-ids $(cluster_ids)
 	@aws ec2 wait instance-stopped --instance-ids $(cluster_ids)
 	@echo "${RED}Stopped k8s cluster instances${NOCOLOR}"
