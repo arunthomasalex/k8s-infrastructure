@@ -8,8 +8,8 @@ GREEN:=\033[0;32m
 ORANGE:=\033[0;33m
 NOCOLOR:=\033[0m
 
--master_ids=$(shell cd terraform && terraform output --json k8s-master-ids | sed -r 's/(,|\[|\])/ /g')
--cluster_ids=$(shell cd terraform && terraform output --json k8s-cluster-ids | sed -r 's/(,|\[|\])/ /g')
+master_ids=$(shell cd terraform && terraform output --json k8s-master-ids | sed -r 's/(,|\[|\])/ /g')
+cluster_ids=$(shell cd terraform && terraform output --json k8s-cluster-ids | sed -r 's/(,|\[|\])/ /g')
 
 edit: terraform wait ansible provisioned
 
